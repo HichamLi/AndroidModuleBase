@@ -11,37 +11,37 @@ import androidx.fragment.app.FragmentManager;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		initBeforeSetContentView();
-		setContentView(getViewLayout());
-		initData();
-		initView();
-	}
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initBeforeSetContentView();
+        setContentView(getViewLayout());
+        initData();
+        initView();
+    }
 
-	protected void initBeforeSetContentView() {}
+    protected void initBeforeSetContentView() {}
 
-	protected abstract int getViewLayout();
+    protected abstract int getViewLayout();
 
-	protected void initData() {}
+    protected void initData() {}
 
-	protected void initView() {}
+    protected void initView() {}
 
-	protected boolean banOnBackPress() {return false;}
+    protected boolean banOnBackPress() {return false;}
 
-	@Override
-	public void onBackPressed() {
-		boolean flagSuperBackPress = true;
-		FragmentManager manager = getSupportFragmentManager();
-		List<Fragment> fragmentList = manager.getFragments();
-		if (fragmentList.size() > 0) {
-			Fragment fragment = fragmentList.get(0);
-			if (fragment instanceof BaseFragment) {
-				BaseFragment baseFragment = (BaseFragment) fragment;
-				if (baseFragment.onBackPress()) flagSuperBackPress = false;
-			}
-		}
-		if (flagSuperBackPress && !banOnBackPress()) super.onBackPressed();
-	}
+    @Override
+    public void onBackPressed() {
+        boolean flagSuperBackPress = true;
+        FragmentManager manager = getSupportFragmentManager();
+        List<Fragment> fragmentList = manager.getFragments();
+        if (fragmentList.size() > 0) {
+            Fragment fragment = fragmentList.get(0);
+            if (fragment instanceof BaseFragment) {
+                BaseFragment baseFragment = (BaseFragment) fragment;
+                if (baseFragment.onBackPress()) flagSuperBackPress = false;
+            }
+        }
+        if (flagSuperBackPress && !banOnBackPress()) super.onBackPressed();
+    }
 }
