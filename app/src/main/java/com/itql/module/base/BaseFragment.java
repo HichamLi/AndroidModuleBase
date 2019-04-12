@@ -30,17 +30,20 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initData();
+        initBundle();
         initView();
+        initData();
     }
 
     protected abstract int getViewLayout();
 
-    protected void initData() {}
+    protected void initBundle() {}
 
     protected void initView() {}
 
-    protected boolean onBackPress() {
+    protected void initData() {}
+
+    protected boolean interceptBackPress() {
         return false;
     }
 }
