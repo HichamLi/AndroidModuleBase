@@ -16,32 +16,40 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initBeforeSetContentView();
         setContentView(getViewLayout());
-        initData();
+        initBundle();
         initView();
+        initData();
     }
 
     protected void initBeforeSetContentView() {}
 
     protected abstract int getViewLayout();
 
-    protected void initData() {}
+    protected void initBundle() {}
 
     protected void initView() {}
 
-    protected boolean banOnBackPress() {return false;}
+    protected void initData() {}
+
+    protected boolean interceptBackPress() {
+        return false;
+    }
 
     @Override
     public void onBackPressed() {
-        boolean flagSuperBackPress = true;
+        boolean fragmentInterceptBackPress = false;
         FragmentManager manager = getSupportFragmentManager();
         List<Fragment> fragmentList = manager.getFragments();
-        if (fragmentList.size() > 0) {
-            Fragment fragment = fragmentList.get(0);
+        int size = fragmentList.size();
+        if (size > 0) {
+            Fragment fragment = fragmentList.get(size - 1);
             if (fragment instanceof BaseFragment) {
                 BaseFragment baseFragment = (BaseFragment) fragment;
-                if (baseFragment.onBackPress()) flagSuperBackPress = false;
+                if (baseFragment.interceptBackPress()) {
+                    fragmentInterceptBackPress = true;
+                }
             }
         }
-        if (flagSuperBackPress && !banOnBackPress()) super.onBackPressed();
+        if (!fragmentInterceptBackPress && !interceptBackPress()) super.onBackPressed();
     }
 }
