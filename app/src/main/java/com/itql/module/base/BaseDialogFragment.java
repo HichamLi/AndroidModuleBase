@@ -7,12 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 
-
-public abstract class BaseFragment extends Fragment {
-    protected static final String TAG = "BaseFragment";
-    private View mView;
+public abstract class BaseDialogFragment extends DialogFragment {
+    protected static final String TAG = BaseFragment.class.getSimpleName();
+    protected View mView;
 
     @Nullable
     @Override
@@ -24,6 +23,7 @@ public abstract class BaseFragment extends Fragment {
         if (viewGroup != null) {
             viewGroup.removeView(mView);
         }
+        beforeReturnView();
         return mView;
     }
 
@@ -37,6 +37,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getViewLayout();
 
+    protected void beforeReturnView() {}
+
     protected void initBundle() {}
 
     protected void initView() {}
@@ -47,3 +49,4 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 }
+

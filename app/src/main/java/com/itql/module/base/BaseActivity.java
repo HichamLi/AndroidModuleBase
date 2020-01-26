@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentManager;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +42,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         boolean fragmentInterceptBackPress = false;
         FragmentManager manager = getSupportFragmentManager();
         List<Fragment> fragmentList = manager.getFragments();
-        int size = fragmentList.size();
-        if (size > 0) {
-            Fragment fragment = fragmentList.get(size - 1);
+        for (Fragment fragment : fragmentList) {
             if (fragment instanceof BaseFragment) {
                 BaseFragment baseFragment = (BaseFragment) fragment;
                 if (baseFragment.interceptBackPress()) {
                     fragmentInterceptBackPress = true;
+                    break;
+                }
+            } else if (fragment instanceof BaseDialogFragment) {
+                BaseDialogFragment baseFragment = (BaseDialogFragment) fragment;
+                if (baseFragment.interceptBackPress()) {
+                    fragmentInterceptBackPress = true;
+                    break;
                 }
             }
         }
